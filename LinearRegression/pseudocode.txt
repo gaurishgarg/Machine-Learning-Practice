@@ -1,0 +1,52 @@
+Input:
+    X, y
+    alphas = {0.001, 0.01, 0.1, 1}
+    epochs = 1000
+    K = 5
+
+Split dataset into K folds
+
+best_alpha = None
+best_score = -∞
+
+FOR each alpha in alphas:
+
+    fold_scores = []
+
+    FOR each fold i in 1 to K:
+
+        X_train, y_train = all folds except i
+        X_val, y_val = fold i
+
+        Add bias to X_train and X_val
+
+        Initialize beta = zeros
+
+        # Gradient Descent happens HERE
+        FOR epoch = 1 to epochs:
+
+            predictions = X_train * beta
+            error = predictions - y_train
+            gradient = (X_train^T * error) / n
+            beta = beta - alpha * gradient
+
+        END FOR
+
+        # Evaluate AFTER training
+        val_predictions = X_val * beta
+        R2_val = compute R²
+
+        Append R2_val to fold_scores
+
+    END FOR
+
+    avg_score = mean(fold_scores)
+
+    IF avg_score > best_score:
+        best_score = avg_score
+        best_alpha = alpha
+    ##if the average score here is better, choose this alpha
+
+END FOR
+
+Return best_alpha
